@@ -1,0 +1,17 @@
+﻿.vscode/
+bin/
+obj/
+
+appsettings.Development.json
+appsettings.Production.json
+appsettings.Staging.json
+appsettings.json
+*.db
+*.db-shm
+*.db-wal
+
+packages/
+
+*.suo
+*.user
+*.sln.docstates
