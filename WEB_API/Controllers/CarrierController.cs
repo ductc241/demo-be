@@ -65,9 +65,33 @@ namespace WEB_API.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("update/{id}")]
+        public IActionResult UpdateOne(int id, [FromBody] CarrierDto carrierUpdate)
         {
+            try
+            {
+                if (carrierUpdate == null || !ModelState.IsValid) return BadRequest();
+
+                var _carrierUpdate = _context.Shipping_Carrier.Where(s => s.Id == id).FirstOrDefault();
+
+                if (_carrierUpdate == null) return NotFound("Not found shipment");
+
+                _carrierUpdate.Name = carrierUpdate.Name;
+                _carrierUpdate.Contact_Person = carrierUpdate.Contact_Person;
+                _carrierUpdate.Phone_Number = carrierUpdate.Phone_Number;
+                _carrierUpdate.Email = carrierUpdate.Email;
+                _carrierUpdate.Note = carrierUpdate.Note;
+                _carrierUpdate.Status = carrierUpdate.Status;
+
+                _context.Shipping_Carrier.Update(_carrierUpdate);
+                _context.SaveChanges();
+
+                return Ok("Update Success");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
 
         [HttpDelete("delete/{id}")]
